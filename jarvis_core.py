@@ -57,6 +57,7 @@ def falar(texto):
                 else:
                     falar("Sim senhor. Já respondo.")
 
+        
         except Exception as e:
             print("Erro:", e)
             if interface:
