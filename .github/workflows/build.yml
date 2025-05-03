@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout do código
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configurar Python
         uses: actions/setup-python@v4
@@ -23,13 +23,10 @@ jobs:
           pip install pyinstaller pillow pyttsx3 SpeechRecognition playsound
 
       - name: Compilar com PyInstaller
-        run: |
-          pyinstaller --onefile main.py
-          echo "EXE gerado com sucesso"
-          dir dist
+        run: pyinstaller --onefile main.py
 
-      - name: Upload do executável
-        uses: actions/upload-artifact@v3
+      - name: Fazer upload do executável
+        uses: actions/upload-artifact@v4
         with:
           name: sexta-feira
           path: dist/main.exe
