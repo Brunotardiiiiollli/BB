@@ -25,8 +25,9 @@ jobs:
       - name: Compilar com PyInstaller
         run: pyinstaller --onefile main.py
 
-      - name: Fazer upload do EXE
+      - name: Upload do EXE
         uses: actions/upload-artifact@v4
         with:
-          name: sexta-feira
+          name: sexta-feira-assistente
           path: dist/main.exe
+
