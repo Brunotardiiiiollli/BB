@@ -14,14 +14,19 @@ def falar(texto):
     voz_engine.say(texto)
     voz_engine.runAndWait()
 
-def iniciar_jarvis():
+
+    def iniciar_jarvis(interface=None):
     playsound("audio/efeito_ia.mp3")
     falar("Sim senhor. Assistente iniciado.")
+
+    if interface:
+        interface.atualizar_status("Assistente ativo...")
 
     recognizer = sr.Recognizer()
     while True:
         with sr.Microphone() as mic:
-            print("Aguardando comando...")
+            if interface:
+                interface.atualizar_status("Ouvindo...")
             audio = recognizer.listen(mic)
 
         try:
@@ -29,6 +34,9 @@ def iniciar_jarvis():
             print(f"Você disse: {comando}")
 
             if "sexta-feira" in comando:
+                if interface:
+                    interface.atualizar_status(f"Comando detectado: {comando}")
+
                 if "abrir navegador" in comando:
                     webbrowser.open("https://www.google.com")
                     falar("Abrindo navegador, senhor.")
@@ -43,10 +51,14 @@ def iniciar_jarvis():
                     falar("Tocando música, senhor.")
                 elif "desligar" in comando:
                     falar("Ok senhor. Fico à disposição.")
+                    if interface:
+                        interface.atualizar_status("Desligando assistente...")
                     break
                 else:
                     falar("Sim senhor. Já respondo.")
-                    # Aqui pode entrar resposta da API da OpenAI
 
         except Exception as e:
             print("Erro:", e)
+            if interface:
+                interface.atualizar_status("Erro no reconhecimento.")
+
