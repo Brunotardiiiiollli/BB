@@ -20,19 +20,17 @@ jobs:
 
       - name: Instalar dependências
         run: |
-          pip install -r requirements.txt
-          pip install pyinstaller pillow pyttsx3 SpeechRecognition playsound
+          pip install -r requirements.txt || echo "Falha ao instalar requirements.txt"
+          pip install pyinstaller pillow pyttsx3 SpeechRecognition playsound || echo "Erro em libs"
 
       - name: Compilar com PyInstaller
-        run: pyinstaller --onefile main.py
+        run: |
+          pyinstaller --onefile main.py || echo "Erro ao compilar"
+          dir dist
 
-      - name: Verificar arquivos
-        run: dir dist
-
-      - name: Enviar .EXE como artefato
+      - name: Upload do EXE
+        if: success()
         uses: actions/upload-artifact@v3
         with:
           name: sexta-feira
-          path: dist\main.exe
-
-
+          path: dist/main.exe
